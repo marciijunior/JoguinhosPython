@@ -1,34 +1,21 @@
-# Jogo da Cobrinha em Python
-# Utilizaremos a biblioteca pygame para facilitar o desenvolvimento
 
 import pygame
 import random
 import sys
-
-# Inicialização do pygame
 pygame.init()
-
-# Definições de cores
 BRANCO = (255, 255, 255)
 VERDE = (0, 200, 0)
 VERDE_ESCURO = (0, 120, 0)
 VERMELHO = (255, 0, 0)
 PRETO = (0, 0, 0)
-
-# Tamanho da tela
 LARGURA = 600
 ALTURA = 400
 TAMANHO_BLOCO = 20
-
-# Configuração da tela
 tela = pygame.display.set_mode((LARGURA, ALTURA))
 pygame.display.set_caption('Jogo da Cobrinha')
-
-# Função para desenhar a cobrinha
 def desenhar_cobrinha(tamanho, lista_cobra):
     total = len(lista_cobra)
     for i, x in enumerate(lista_cobra):
-        # Gradiente do corpo: do verde claro (cauda) ao verde escuro (cabeça)
         if total > 1:
             fator = i / (total - 1)
         else:
@@ -38,24 +25,17 @@ def desenhar_cobrinha(tamanho, lista_cobra):
         b = int(VERDE[2] * (1 - fator) + VERDE_ESCURO[2] * fator)
         cor_gradiente = (r, g, b)
         if i == len(lista_cobra) - 1:
-            # Cabeça da cobra (oval)
             pygame.draw.ellipse(tela, cor_gradiente, [x[0], x[1], TAMANHO_BLOCO, TAMANHO_BLOCO])
-            # Olhos
             olho_tam = tamanho // 5
             pygame.draw.circle(tela, BRANCO, (x[0] + olho_tam*2, x[1] + olho_tam), olho_tam)
             pygame.draw.circle(tela, BRANCO, (x[0] + olho_tam*2, x[1] + tamanho - olho_tam), olho_tam)
             pygame.draw.circle(tela, PRETO, (x[0] + olho_tam*2, x[1] + olho_tam), olho_tam//2)
             pygame.draw.circle(tela, PRETO, (x[0] + olho_tam*2, x[1] + tamanho - olho_tam), olho_tam//2)
         else:
-            # Corpo da cobra (retângulo)
             pygame.draw.rect(tela, cor_gradiente, [x[0], x[1], TAMANHO_BLOCO, TAMANHO_BLOCO], border_radius=6)
-
-# Função principal
 def desenhar_grade():
-    # Desenha linhas verticais
     for x in range(0, LARGURA, TAMANHO_BLOCO):
         pygame.draw.line(tela, (40, 40, 40), (x, 0), (x, ALTURA))
-    # Desenha linhas horizontais
     for y in range(0, ALTURA, TAMANHO_BLOCO):
         pygame.draw.line(tela, (40, 40, 40), (0, y), (LARGURA, y))
 
